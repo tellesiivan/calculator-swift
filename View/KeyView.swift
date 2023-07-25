@@ -25,7 +25,7 @@ struct KeyView: View {
    
     var body: some View {
        VStack(){
-          Spacer()
+          
           HStack {
              RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(animateRecColor ? Color(.numKeys) : Color.pink.opacity(0.2))
@@ -40,10 +40,45 @@ struct KeyView: View {
                   .font(.system(size: 100))
              )
           }
-          Text("pLACEHOLDER")
+          ForEach(buttons, id: \.self) { keysGroup in
+             HStack(spacing: 10){
+                ForEach(keysGroup, id:\.self) { key in
+                   Button(action: {
+                      self.didTap(key)
+                   }, label: {
+                      Text(key.rawValue)
+                         .font(.system(size: 26))
+                         .fontWeight(.semibold)
+                         .frame(width: self.getWidth(elem: key), height: self.getHeight(elem: key))
+                         .background(key.buttonColor)
+                         .foregroundColor(key.foregroundColor)
+                         .cornerRadius(self.getWidth(elem: key) / 2)
+                         .shadow(color:.gray.opacity(0.24), radius:6 )
+                   })
+                }
+             }.padding(.bottom, 8)
+          }
        }
        .padding(10)
     }
+   
+   
+   func didTap(_ button: Keys) {
+      print("Button")
+   }
+   
+   func getHeight(elem: Keys) -> CGFloat {
+      return (UIScreen.main.bounds.width - (5 * 10)) / 4
+   }
+   
+   func getWidth(elem: Keys) -> CGFloat {
+//      since the num .zero button we want half of the width, we divide by 2(half of the screen)
+      if elem == .zero {
+         return (UIScreen.main.bounds.width - (5 * 10)) / 2
+      }
+//      spacing --> 10
+      return (UIScreen.main.bounds.width - (5 * 10)) / 4
+   }
 }
 
 #Preview {

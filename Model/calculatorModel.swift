@@ -39,6 +39,15 @@ enum Keys: String {
             return Color(.numKeys)
       }
    }
+   
+   var foregroundColor: Color {
+      switch self {
+         case .add, .subtract, .multiply, .divide, .equal:
+            return Color(.white)
+         default:
+            return Color(.black)
+      }
+   }
 }
 
 enum Operations {
